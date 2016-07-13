@@ -1,0 +1,8 @@
+node_modules
+dist
+.tmp
+bower_components
+.idea/
+.jshintrc
+.yo-rc.json
+examples/
