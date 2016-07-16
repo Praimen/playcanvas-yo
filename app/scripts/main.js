@@ -41,6 +41,42 @@ cameraEntity.rotateLocal(-25, 0, 0);
 cameraEntity.translateLocal(0, .4, 2.4);
 
 
+var light = new pc.Entity();
+light.addComponent("light", {
+  type: "spot",
+  color: new pc.Color(1, 1, 1),
+  outerConeAngle: 60,
+  innerConeAngle: 40,
+  range: 1000,
+  intensity: 1,
+  castShadows: true,
+  shadowBias: 0.005,
+  normalOffsetBias: 0.01,
+  shadowResolution: 2048
+});
+
+var cone = new pc.Entity();
+cone.addComponent("model", {
+  type: "cone"
+});
+cone.model.model.meshInstances[0].material = createMaterial({emissive: new pc.Color(1,1,1)});
+light.addChild(cone);
+
+
+var ground = new pc.Entity();
+ground.addComponent("model", {
+  type: "box"
+});
+ground.setLocalScale(50, 1, 50);
+ground.setLocalPosition(0, -0.5, 0);
+
+var groundMaterial = createMaterial({
+  ambient: new pc.Color(0.1, 0.4, 0.1),
+  diffuse: new pc.Color(0.1, 0.4, 0.1),
+});
+ground.model.model.meshInstances[0].material = groundMaterial;
+
+
 KeyboardHandler.prototype.initialize = function() {
   // Use on() to listen for events on the keyboard device
   // 1) The event name to listen for
@@ -129,8 +165,13 @@ function addEntsToApp(){
   app.start();
   robotEnt.addComponent("script");
   robotEnt.script.create("keyboardHandler");
+  app.root.addChild(light);
+  app.root.addChild(ground);
   app.root.addChild(cameraEntity);
   app.root.addChild(robotEnt);
+  light.setLocalPosition(2, 2, 0);
+  //light.lookAt(robotEnt.getPosition());// seems problematic
+
 }
 
 
