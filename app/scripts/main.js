@@ -1,11 +1,4 @@
-var model = null;
-var runAnim = null;
-var idleAnim = null;
 
-var canvas = document.getElementById("application-canvas");
-var app = new pc.Application(canvas);
-var cameraEntity = new pc.Entity(app);
-var robotEnt = new pc.Entity();
 var KeyboardHandler = pc.createScript('keyboardHandler');
 app.keyboard = new pc.Keyboard(window);
 
@@ -13,11 +6,11 @@ KeyboardHandler.prototype.update = function(dt) {
   var angle = 0;
 
   if(this.app.keyboard.isPressed(pc.KEY_D)){
-    angle = -1;
+    angle = -2;
   }
 
   if(this.app.keyboard.isPressed(pc.KEY_A)){
-    angle = 1;
+    angle = 2;
   }
 
 
@@ -41,40 +34,10 @@ cameraEntity.rotateLocal(-25, 0, 0);
 cameraEntity.translateLocal(0, .4, 2.4);
 
 
-var light = new pc.Entity();
-light.addComponent("light", {
-  type: "spot",
-  color: new pc.Color(1, 1, 1),
-  outerConeAngle: 60,
-  innerConeAngle: 40,
-  range: 1000,
-  intensity: 1,
-  castShadows: true,
-  shadowBias: 0.005,
-  normalOffsetBias: 0.01,
-  shadowResolution: 2048
-});
-
-var cone = new pc.Entity();
-cone.addComponent("model", {
-  type: "cone"
-});
-cone.model.model.meshInstances[0].material = createMaterial({emissive: new pc.Color(1,1,1)});
-light.addChild(cone);
 
 
-var ground = new pc.Entity();
-ground.addComponent("model", {
-  type: "box"
-});
-ground.setLocalScale(50, 1, 50);
-ground.setLocalPosition(0, -0.5, 0);
 
-var groundMaterial = createMaterial({
-  ambient: new pc.Color(0.1, 0.4, 0.1),
-  diffuse: new pc.Color(0.1, 0.4, 0.1),
-});
-ground.model.model.meshInstances[0].material = groundMaterial;
+
 
 
 KeyboardHandler.prototype.initialize = function() {
@@ -188,14 +151,7 @@ function stop() {
 }
 
 
-function createMaterial(colors) {
-  var material = new pc.PhongMaterial();
-  for (var param in colors) {
-    material[param] = colors[param];
-  }
-  material.update();
-  return material;
-}
+
 
 
 
