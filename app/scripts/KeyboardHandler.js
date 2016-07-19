@@ -32,10 +32,10 @@ KeyboardHandler.prototype.initialize = function() {
 KeyboardHandler.prototype.onKeyDown = function (event) {
   // Check event.key to detect which key has been pressed
 
-  if (event.key === pc.KEY_W ||
+  if ((event.key === pc.KEY_W ||
     event.key === pc.KEY_A ||
     event.key === pc.KEY_S ||
-    event.key === pc.KEY_D ) {
+    event.key === pc.KEY_D ) && playerActorEntity.getAnimState() != "run") {
 
     playerActorEntity.playActorAnim("run");
 
@@ -47,15 +47,13 @@ KeyboardHandler.prototype.onKeyDown = function (event) {
 };
 
 KeyboardHandler.prototype.onKeyUp = function (event) {
-
+    //TODO: have to check for all the keys being up so the animation doesn't stop
   // Check event.key to detect which key has been pressed
   if (event.key === pc.KEY_W ||
     event.key === pc.KEY_A ||
     event.key === pc.KEY_S ||
     event.key === pc.KEY_D ) {
-
     playerActorEntity.playActorAnim("idle");
-
   }
 
   // When the space bar is pressed this scrolls the window.

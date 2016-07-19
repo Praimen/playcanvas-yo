@@ -7,9 +7,10 @@ app.setCanvasResolution(pc.RESOLUTION_AUTO);
 app.scene.ambientLight = new pc.Color(0.8, 0.8, 0.8);
 
 
-app.on("load-app",function (){
+
+app.once("load-app",function (){
   // Create the application and start the update loop
-  console.log('did you even run bro');
+console.log("app loaded");
   app.start();
   playerActorEntity.addComponent("script");
   playerActorEntity.script.create("keyboardHandler");

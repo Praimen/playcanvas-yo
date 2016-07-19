@@ -3,36 +3,77 @@
  */
 // Load model and animation assets
 
-var assetObj = {
-  model:{},
-  animArr: [ ],
-  animObjMap:{/*TODO: populate this dynamically this should be attached to the entity actually*/
-    run   : "Playbot_run.json",
-    idle  : "Playbot_idle.json"
-  }
 
+var playerEntAttrObj = {
+  model: {},
+  animArr: [],
+  animState: null,
+  assetPath: "../assets/Playbot/",
+  assetModelFile: "Playbot.json",
+  animObjMap: {
+    /*TODO: populate this dynamically this should be attached to the entity actually*/
+    run: "Playbot_run.json",
+    idle: "Playbot_idle.json"
+
+  }
 };
 
 
-//TODO: find a way to do this in a promis interface
-app.assets.loadFromUrl("../assets/Playbot/Playbot.json", "model", function (err, asset) {
 
-  assetObj.model = asset;
-  app.assets.loadFromUrl("../assets/Playbot/Playbot_run.json", "animation", function (err, asset) {
-    assetObj.animArr.push(asset);
 
-    app.assets.loadFromUrl("../assets/Playbot/Playbot_idle.json", "animation", function (err, asset) {
-      assetObj.animArr.push(asset);
-
-      playerActorEntity.assetObj = Object.create(assetObj);
-     playerActorEntity.addModelAttr();
-     playerActorEntity.addAnimAttr();
-    app.fire("load-app");
-
-      //TODO: this needs to fire an event upon load completetion
-
-    });
+function loadPlayerModel(){
+  //TODO: combine this with other load function loadPlayerAnims() maybe
+  var assetPath = playerActorEntity.playerAttrObj.assetPath;
+  var playerModel = playerActorEntity.playerAttrObj.assetModelFile;
+  var stringPath = assetPath + playerModel;
+  app.assets.loadFromUrl(stringPath, "model", function (err, asset) {
+    if(!err){
+      playerActorEntity.playerAttrObj.model = asset;
+      app.fire("model-loaded");
+    }
   });
-});
+}
 
 
+function loadPlayerAnims(){
+  //TODO: combine this with other load function loadPlayerModel() maybe
+  var assetPath = playerActorEntity.playerAttrObj.assetPath;
+  var animSegment = playerActorEntity.playerAttrObj.animObjMap
+  for (key in animSegment) {
+    var stringPath = assetPath + animSegment[key];
+    app.assets.loadFromUrl(stringPath, "animation", function (err, asset) {
+      if(!err){
+        playerActorEntity.playerAttrObj.animArr.push(asset);
+      }
+    });
+  }
+
+
+}
+
+
+function initPlayerAssets(attrObj){
+  playerActorEntity.playerAttrObj = Object.create(attrObj);
+
+
+  app.on("model-loaded", function(){
+    playerActorEntity.addModelAttr();
+
+    //TODO: this need serious work sequencing issues
+    console.log('model load');
+    app.fire('anim-loaded');
+    app.fire("load-app");
+  });
+
+  app.on("anim-loaded", function(){
+    playerActorEntity.addAnimAttr();
+
+    console.log('anim load');
+  });
+  loadPlayerAnims();
+  loadPlayerModel();
+
+
+}
+
+initPlayerAssets(playerEntAttrObj);
