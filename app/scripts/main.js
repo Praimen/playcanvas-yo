@@ -24,7 +24,9 @@ console.log("app loaded");
 } );
 
 
-
+function initApp() {
+  app.fire("load-app");
+}
 
 
 

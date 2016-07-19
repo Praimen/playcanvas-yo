@@ -14,8 +14,8 @@ PlayerActor.prototype.addAnimAttr = function() {
 
 // Start running then stop in 1s
 PlayerActor.prototype.playActorAnim = function(animKey) {
-  if(this.playerAttrObj.animObjMap[animKey] != undefined){
-    this.animation.play(this.playerAttrObj.animObjMap[animKey], 0.2);
+  if(this.playerAttrObj.animSegMap[animKey] != undefined){
+    this.animation.play(this.playerAttrObj.animSegMap[animKey], 0.2);
     this.setAnimState(animKey);
   }
 
