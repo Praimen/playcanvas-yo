@@ -3,14 +3,16 @@
  */
 
 
-// Start running then stop in 1s
-function run() {
-  console.log('execute run');
-  robotEnt.animation.play("Playbot_run.json", 0.2);
+PlayerActor.prototype.addAnimAttr = function() {
+  // add animation component to entity
+  this.addComponent("animation", {
+    assets: this.assetObj.animArr,
+    speed: 1
+  });
 };
 
-// Stop running then start running in 1s
-function stop() {
-  robotEnt.animation.play("Playbot_idle.json", 0.2);
+// Start running then stop in 1s
+PlayerActor.prototype.playActorAnim = function(animKey) {
+  this.animation.play(this.assetObj.animObjMap[animKey], 0.2);
+};
 
-}

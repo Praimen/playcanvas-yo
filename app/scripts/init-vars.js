@@ -8,7 +8,14 @@ var idleAnim = null;
 var canvas = document.getElementById("application-canvas");
 var app = new pc.Application(canvas);
 var cameraEntity = new pc.Entity(app);
-var robotEnt = new pc.Entity();
+var KeyboardHandler = pc.createScript('keyboardHandler');
+var PlayerActor = new pc.Entity(app);
+PlayerActor.prototype = Object.create(PlayerActor);
+var playerActorEntity = Object.create(PlayerActor);
+playerActorEntity.prototype = PlayerActor.prototype;
+
+
+
 
 
 function createMaterial(colors) {
