@@ -6,9 +6,10 @@
 
 PlayerActor.prototype.addModelAttr = function (){
   // add model component to entity
+  console.log( this.assetObj.model);
   this.addComponent("model", {
     type: "asset",
-    asset: model,
+    asset: this.assetObj.model,
     castShadows: true
   });
 

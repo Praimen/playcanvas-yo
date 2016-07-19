@@ -5,6 +5,7 @@
 
 PlayerActor.prototype.addAnimAttr = function() {
   // add animation component to entity
+  console.log(this.assetObj.animArr);
   this.addComponent("animation", {
     assets: this.assetObj.animArr,
     speed: 1

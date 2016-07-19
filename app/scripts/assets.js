@@ -12,7 +12,7 @@ var assetObj = {
   }
 
 };
-playerActorEntity.assetObj = Object.create(assetObj);
+
 
 //TODO: find a way to do this in a promis interface
 app.assets.loadFromUrl("../assets/Playbot/Playbot.json", "model", function (err, asset) {
@@ -24,9 +24,10 @@ app.assets.loadFromUrl("../assets/Playbot/Playbot.json", "model", function (err,
     app.assets.loadFromUrl("../assets/Playbot/Playbot_idle.json", "animation", function (err, asset) {
       assetObj.animArr.push(asset);
 
-     playerActorEntity.prototype.addModelAttr();
-     playerActorEntity.prototype.addAnimAttr();
-    //app.fire("load-app");
+      playerActorEntity.assetObj = Object.create(assetObj);
+     playerActorEntity.addModelAttr();
+     playerActorEntity.addAnimAttr();
+    app.fire("load-app");
 
       //TODO: this needs to fire an event upon load completetion
 
