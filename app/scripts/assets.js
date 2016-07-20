@@ -21,7 +21,7 @@ var playerAssetObj = {
 
 
 function loadPlayerModel(){
-  //TODO: combine this with other load function loadPlayerAnims() maybe
+
   var assetPath = playerActorEntity.playerAttrObj.assetPath;
   var playerModelArr = playerActorEntity.playerAttrObj.assetModelFileArr;
   var assetModelCount = 0;
@@ -49,7 +49,7 @@ function loadPlayerModel(){
 
 
 function loadPlayerAnims(){
-  //TODO: combine this with other load function loadPlayerModel() maybe
+
   var assetPath = playerActorEntity.playerAttrObj.assetPath;
   var animSegment = playerActorEntity.playerAttrObj.animSegMapArr;
   for (var i = 0; i < animSegment.length; i++) {
