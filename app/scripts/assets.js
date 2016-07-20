@@ -2,37 +2,114 @@
  * Created by Praimen on 7/17/2016.
  */
 // Load model and animation assets
-//TODO: find a way to do this in a promis interface
-app.assets.loadFromUrl("../assets/Playbot/Playbot.json", "model", function (err, asset) {
-  model = asset;
-  app.assets.loadFromUrl("../assets/Playbot/Playbot_run.json", "animation", function (err, asset) {
-    runAnim = asset;
-    app.assets.loadFromUrl("../assets/Playbot/Playbot_idle.json", "animation", function (err, asset) {
-      idleAnim = asset;
 
-      addModelAttr ();
-      addAnimAttr();
-      //addEntsToApp();
-      //TODO: this needs to fire an event upon load completetion
+
+var playerAssetObj = {
+  model: {},
+  animArr: [],
+  animSegMap: {},
+  animState: null,
+  assetPath: "../assets/Playbot/",
+  assetModelFileArr:[ "Playbot.json" ],
+  animSegMapArr: [
+    {run: "Playbot_run.json"},
+    {idle: "Playbot_idle.json"}
+  ]
+};
+
+
+
+
+function loadPlayerModel(){
+
+  var assetPath = playerActorEntity.playerAttrObj.assetPath;
+  var playerModelArr = playerActorEntity.playerAttrObj.assetModelFileArr;
+  var assetModelCount = 0;
+
+  for (var i = 0; i < playerModelArr.length; i++) {
+    var playerModel = playerModelArr[i];
+    var stringPath = assetPath + playerModel;
+
+    app.assets.loadFromUrl(stringPath, "model", function (err, asset) {
+
+      if (!err) {
+        assetModelCount++;
+        playerActorEntity.playerAttrObj.model = asset;
+        if (assetModelCount == playerModelArr.length) {
+          app.fire("model-loaded");
+        }
+
+      }
 
     });
-  });
-});
+  }
 
-function addModelAttr (){
-  // add model component to entity
-  robotEnt.addComponent("model", {
-    type: "asset",
-    asset: model,
-    castShadows: true
-  });
 
 }
 
-function addAnimAttr() {
-  // add animation component to entity
-  robotEnt.addComponent("animation", {
-    assets: [idleAnim, runAnim],
-    speed: 1
-  });
+
+function loadPlayerAnims(){
+
+  var assetPath = playerActorEntity.playerAttrObj.assetPath;
+  var animSegment = playerActorEntity.playerAttrObj.animSegMapArr;
+  for (var i = 0; i < animSegment.length; i++) {
+    var obj = animSegment[i];
+    var assetAnimCount = 0;
+
+    for (key in obj) {
+      playerActorEntity.playerAttrObj.animSegMap[key] = obj[key];
+
+      var stringPath = assetPath + obj[key];
+      app.assets.loadFromUrl(stringPath, "animation", function (err, asset) {
+        if(!err){
+          assetAnimCount++;
+
+          playerActorEntity.playerAttrObj.animArr.push(asset);
+          if (assetAnimCount == animSegment.length) {
+            app.fire('anim-loaded');
+          }
+        }
+      });
+    }
+  }
+
+
 }
+
+
+
+
+
+function initPlayerAssets(attrObj){
+  playerActorEntity.playerAttrObj = Object.create(attrObj);
+  var modelsLoaded = false, animsLoaded = false;
+  var isAssetLoaded = (modelsLoaded && animsLoaded);
+
+  app.on("model-loaded", function(){
+    playerActorEntity.addModelAttr();
+    modelsLoaded = true;
+    console.log('model load ' + isAssetLoaded);
+    if(modelsLoaded && animsLoaded){
+      initApp();
+    }
+
+
+  });
+
+  app.on("anim-loaded", function(){
+    playerActorEntity.addAnimAttr();
+    animsLoaded = true;
+    console.log('anim load '+ isAssetLoaded);
+    if(modelsLoaded && animsLoaded){
+      initApp();
+    }
+  });
+
+
+  loadPlayerAnims();
+  loadPlayerModel();
+
+
+}
+
+initPlayerAssets(playerAssetObj);

@@ -1,7 +1,6 @@
 /**
  * Created by Praimen on 7/17/2016.
  */
-var KeyboardHandler = pc.createScript('keyboardHandler');
 
 KeyboardHandler.prototype.update = function(dt) {
   var angle = 0;
@@ -14,16 +13,8 @@ KeyboardHandler.prototype.update = function(dt) {
     angle = 2;
   }
 
-
-  robotEnt.rotateLocal(0, angle, 0);
+  playerActorEntity.rotateLocal(0, angle, 0);
 };
-
-
-
-
-
-
-
 
 
 KeyboardHandler.prototype.initialize = function() {
@@ -32,23 +23,21 @@ KeyboardHandler.prototype.initialize = function() {
   // 2) The callback function to call when the event fires
   // 3) (optional) The value to use for 'this' in the callback function
 
-  this.app.keyboard.on("keydown",this.onKeyDown,this);
-  this.app.keyboard.on("keyup", this.onKeyUp,this);
-  robotEnt.animRun = run;
-  robotEnt.animIdle = stop;
+  app.keyboard.on("keydown",this.onKeyDown,this);
+  app.keyboard.on("keyup", this.onKeyUp,this);
+
 };
 
 
 KeyboardHandler.prototype.onKeyDown = function (event) {
   // Check event.key to detect which key has been pressed
 
-  if (event.key === pc.KEY_W ||
+  if ((event.key === pc.KEY_W ||
     event.key === pc.KEY_A ||
     event.key === pc.KEY_S ||
-    event.key === pc.KEY_D ) {
+    event.key === pc.KEY_D ) && playerActorEntity.getAnimState() != "run") {
 
-    robotEnt.animRun();
-    robotEnt.animRun = function(){};
+    playerActorEntity.playActorAnim("run");
 
   }
 
@@ -58,15 +47,13 @@ KeyboardHandler.prototype.onKeyDown = function (event) {
 };
 
 KeyboardHandler.prototype.onKeyUp = function (event) {
-
+    //TODO: have to check for all the keys being up so the animation doesn't stop
   // Check event.key to detect which key has been pressed
   if (event.key === pc.KEY_W ||
     event.key === pc.KEY_A ||
     event.key === pc.KEY_S ||
     event.key === pc.KEY_D ) {
-
-    robotEnt.animIdle();
-    robotEnt.animRun = run;
+    playerActorEntity.playActorAnim("idle");
   }
 
   // When the space bar is pressed this scrolls the window.

@@ -8,22 +8,25 @@ app.scene.ambientLight = new pc.Color(0.8, 0.8, 0.8);
 
 
 
-function addEntsToApp(){
+app.once("load-app",function (){
   // Create the application and start the update loop
+console.log("app loaded");
   app.start();
-  robotEnt.addComponent("script");
-  robotEnt.script.create("keyboardHandler");
+  playerActorEntity.addComponent("script");
+  playerActorEntity.script.create("keyboardHandler");
   app.root.addChild(light);
   app.root.addChild(ground);
   app.root.addChild(cameraEntity);
-  app.root.addChild(robotEnt);
+  app.root.addChild(playerActorEntity);
   light.setLocalPosition(2, 2, 0);
   //light.lookAt(robotEnt.getPosition());// seems problematic
 
+} );
+
+
+function initApp() {
+  app.fire("load-app");
 }
-
-
-
 
 
 
