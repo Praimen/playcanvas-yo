@@ -10,10 +10,11 @@ var app = new pc.Application(canvas);
 var cameraEntity = new pc.Entity(app);
 var KeyboardHandler = pc.createScript('keyboardHandler');
 
-var PlayerActor = new pc.Entity(app);
-PlayerActor.prototype = pc.Entity.prototype;
-var playerActorEntity = Object.create(PlayerActor);
-playerActorEntity.prototype = Object.create(PlayerActor.prototype);
+//var PlayerActor = new PlayerActor();
+
+//var playerActorEntity = Object.create(PlayerActor);
+var playerActorEntity = new PlayerActor(app);
+//playerActorEntity.prototype = Object.create(PlayerActor.prototype);
 
 
 
