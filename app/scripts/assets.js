@@ -4,22 +4,6 @@
 // Load model and animation assets
 
 
-var playerAssetObj = {
-  model: {},
-  animArr: [],
-  animSegMap: {},
-  animState: null,
-  assetPath: "../assets/Playbot/",
-  assetModelFileArr:[ "Playbot.json" ],
-  animSegMapArr: [
-    {run: "Playbot_run.json"},
-    {idle: "Playbot_idle.json"}
-  ]
-};
-
-
-
-
 function loadPlayerModel(){
 
   var assetPath = playerActorEntity.playerAttrObj.assetPath;
@@ -43,7 +27,6 @@ function loadPlayerModel(){
 
     });
   }
-
 
 }
 
@@ -73,7 +56,6 @@ function loadPlayerAnims(){
     }
   }
 
-
 }
 
 
@@ -93,7 +75,6 @@ function initPlayerAssets(attrObj){
       initApp();
     }
 
-
   });
 
   app.on("anim-loaded", function(){
@@ -109,7 +90,6 @@ function initPlayerAssets(attrObj){
   loadPlayerAnims();
   loadPlayerModel();
 
-
 }
 
-initPlayerAssets(playerAssetObj);
+

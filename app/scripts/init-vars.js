@@ -16,7 +16,7 @@ var KeyboardHandler = pc.createScript('keyboardHandler');
 var playerActorEntity = new PlayerActor(app);
 //playerActorEntity.prototype = Object.create(PlayerActor.prototype);
 
-
+initPlayerAssets(playerAssetObj);
 
 
 

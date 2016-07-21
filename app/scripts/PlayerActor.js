@@ -1,22 +1,38 @@
 /**
  * Created by b16552 on 7/18/2016.
  */
+
+var playerAssetObj = {
+  model: {},
+  animArr: [],
+  animSegMap: {},
+  animState: null,
+  assetPath: "../assets/Playbot/",
+  assetModelFileArr:[ "Playbot.json" ],
+  animSegMapArr: [
+    {run: "Playbot_run.json"},
+    {idle: "Playbot_idle.json"}
+  ]
+};
+
+
 function PlayerActor(app){
 
   var PlayerActor = new pc.Entity();
 
   this.prototype = pc.Entity.prototype;
 
-
-
   this.prototype.initialize = function () {
-
+    var _self = this;
     app.on("update", function(dt) {
-     // console.log('hey is this working');
+      _self.update(dt);
     });
 
   };
 
+  this.prototype.update = function(dt){
+
+  };
 
   this.prototype.addAnimAttr = function() {
     // add animation component to entity
@@ -48,7 +64,6 @@ function PlayerActor(app){
   this.prototype.setAnimState = function (anim){
     this.playerAttrObj.animState = anim;
   };
-
 
   this.prototype.getAnimState = function (){
     return this.playerAttrObj.animState;
